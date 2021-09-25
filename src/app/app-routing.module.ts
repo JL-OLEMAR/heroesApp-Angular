@@ -6,15 +6,11 @@ import { ErrorPageComponent } from './shared/error-page/error-page.component'
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: async () => (
-      await import('./auth/auth.module').then(m => m.AuthModule)
-    )
+    loadChildren: async () => await import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
     path: 'heroes',
-    loadChildren: async () => (
-      await import('./heroes/heroes.module').then(m => m.HeroesModule)
-    )
+    loadChildren: async () => await import('./heroes/heroes.module').then(m => m.HeroesModule)
   },
   { path: '404', component: ErrorPageComponent },
   { path: '**', redirectTo: '404' }
