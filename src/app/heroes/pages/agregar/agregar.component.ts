@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { HeroesService } from '../../services/heroes.service'
 import { Heroe, Publisher } from '../../interfaces/heroes.interface'
 
 @Component({
@@ -19,7 +20,7 @@ export class AgregarComponent implements OnInit {
     }
   ]
 
-  hereo: Heroe = {
+  heroe: Heroe = {
     superhero: '',
     alter_ego: '',
     characters: '',
@@ -28,8 +29,17 @@ export class AgregarComponent implements OnInit {
     alt_img: ''
   }
 
-  // constructor () { }
+  constructor (private readonly heroesService: HeroesService) { }
 
   ngOnInit (): void {
+  }
+
+  guardar (): void {
+    if (this.heroe.superhero.trim().length === 0) return // eslint-disable-line
+
+    this.heroesService.agregarHeroe(this.heroe)
+      .subscribe(resp => {
+        console.log('Respuesta:', resp)
+      })
   }
 }
