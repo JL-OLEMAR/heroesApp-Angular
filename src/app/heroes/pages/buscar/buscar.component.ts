@@ -31,11 +31,11 @@ export class BuscarComponent implements OnInit {
     const heroe: Heroe = event.option.value
     this.termino = heroe.superhero
 
-    if (heroe.id !== undefined) {
+    if (heroe.id === undefined) {
+      this.heroeSeleccionado = undefined
+    } else {
       this.heroesService.getHeoreById(heroe.id)
         .subscribe(heroe => (this.heroeSeleccionado = heroe))
-    } else {
-      this.heroeSeleccionado = undefined
     }
   }
 }
