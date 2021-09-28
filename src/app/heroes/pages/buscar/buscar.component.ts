@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Component, OnInit } from '@angular/core'
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 
@@ -26,14 +27,15 @@ export class BuscarComponent implements OnInit {
   }
 
   opcionSeleccionada (event: MatAutocompleteSelectedEvent): void {
-    if (event.option.value === undefined) return
+    if (!event.option.value) {
+      this.heroeSeleccionado = undefined
+      return
+    }
 
     const heroe: Heroe = event.option.value
     this.termino = heroe.superhero
 
-    if (heroe.id === undefined) {
-      this.heroeSeleccionado = undefined
-    } else {
+    if (heroe.id) {
       this.heroesService.getHeoreById(heroe.id)
         .subscribe(heroe => (this.heroeSeleccionado = heroe))
     }
