@@ -1,9 +1,12 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-floating-promises */
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { switchMap } from 'rxjs/operators'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatDialog } from '@angular/material/dialog'
 
 import { HeroesService } from '../../services/heroes.service'
+import { ConfirmarComponent } from '../../components/confirmar/confirmar.component'
 import { Heroe, Publisher } from '../../interfaces/heroes.interface'
 
 @Component({
@@ -40,7 +43,9 @@ export class AgregarComponent implements OnInit {
   constructor (
     private readonly heroesService: HeroesService,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit (): void {
@@ -57,21 +62,39 @@ export class AgregarComponent implements OnInit {
     if (this.heroe.id) {
       // Actualizar
       this.heroesService.actualizarHeroe(this.heroe)
-        .subscribe(heroe => (console.log('Actualizando', heroe)))
+        .subscribe(heroe => (this.mostrarSnackBar('Registro actualizado')))
     } else {
       // Crear
       this.heroesService.agregarHeroe(this.heroe)
         .subscribe(heroe => {
           // redirigir a page editar
-          this.router.navigate(['/heroes/editar', heroe.id]) // eslint-disable-line
+          this.router.navigate(['/heroes/editar', heroe.id])
+          this.mostrarSnackBar('Registro creado')
         })
     }
   }
 
   borrarHeroe (): void {
-    this.heroesService.borrarHeroe(this.heroe.id!)
-      .subscribe(resp => {
-        this.router.navigate(['/heroes'])
-      })
+    const dialog = this.dialog.open(ConfirmarComponent, {
+      width: '250px',
+      data: this.heroe
+    })
+
+    dialog.afterClosed().subscribe(result => {
+      if (result) {
+        if (this.heroe.id) {
+          this.heroesService.borrarHeroe(this.heroe.id)
+            .subscribe(resp => {
+              this.router.navigate(['/heroes'])
+            })
+        }
+      }
+    })
+  }
+
+  mostrarSnackBar (mensaje: string): void {
+    this.snackBar.open(mensaje, 'ok!', {
+      duration: 2500
+    })
   }
 }
