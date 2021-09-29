@@ -26,7 +26,7 @@ import { HomeComponent } from './pages/home/home.component'
     BuscarComponent,
     HeroeComponent,
     HomeComponent,
-    ListadoComponent,
+    ListadoComponent
   ],
   imports: [
     CommonModule,
