@@ -19,18 +19,10 @@
       <h1>{{ heroe.publisher }}</h1>
       <mat-divider></mat-divider>
       <mat-list>
-        <mat-list-item *ngIf="heroe.first_appearance">
-          {{ heroe.first_appearance }}
-        </mat-list-item>
-        <mat-list-item *ngIf="heroe.characters">
-          {{ heroe.characters }}
-        </mat-list-item>
-        <mat-list-item *ngIf="heroe.publisher">
-          {{ heroe.publisher }}
-        </mat-list-item>
-        <mat-list-item *ngIf="heroe.alter_ego">
-          {{ heroe.alter_ego }}
-        </mat-list-item>
+        <mat-list-item>{{ heroe.first_appearance }}</mat-list-item>
+        <mat-list-item>{{ heroe.characters }}</mat-list-item>
+        <mat-list-item>{{ heroe.publisher }}</mat-list-item>
+        <mat-list-item>{{ heroe.alter_ego }}</mat-list-item>
       </mat-list>
 
       <br />
