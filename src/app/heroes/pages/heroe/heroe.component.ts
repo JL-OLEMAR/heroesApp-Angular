@@ -33,6 +33,6 @@ export class HeroeComponent implements OnInit {
   }
 
   regresar (): void {
-    this.router.navigate(['/heroes/listado']) // eslint-disable-line
+    this.router.navigate(['/heroes/listado'])
   }
 }
